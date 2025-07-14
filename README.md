@@ -18,7 +18,7 @@ It supports short URL generation, redirection, click tracking, and a clean respo
 
 ## 🚀 Live Demo
 
-- 🔗 Frontend: [https://url-shortener-app-git-main-dev-aroras-projects-34d0f3cf.vercel.app](https://url-shortener-app-git-main-dev-aroras-projects-34d0f3cf.vercel.app)
+- 🔗 Frontend: [https://url-shortener-app-u2pj-woad.vercel.app/](https://url-shortener-app-u2pj-woad.vercel.app/)
 - 🔧 Backend: [https://url-shortener-app-3ojs.onrender.com](https://url-shortener-app-3ojs.onrender.com)
 
 ---
