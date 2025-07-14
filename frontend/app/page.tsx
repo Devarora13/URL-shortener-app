@@ -49,6 +49,7 @@ export default function Home() {
       localStorage.setItem("currentShortURL", shortened);
       localStorage.setItem("currentClickCount", count.toString());
     } catch (err) {
+      console.error(err);
       alert("Failed to shorten URL");
     }
   };
