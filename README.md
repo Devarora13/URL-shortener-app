@@ -1,115 +1,140 @@
 # 🔗 URL Shortener
 
-A minimal URL shortener service built with Django (backend) and Next.js (frontend).  
-It supports short link generation, click tracking, redirect, and basic analytics.
+A minimal full-stack URL shortener service, inspired by [bit.ly](https://bitly.com), built using **Django + DRF (Backend)** and **Next.js (Frontend)**.
+It supports short URL generation, redirection, click tracking, and a clean responsive UI.
 
 ---
 
 ## ⚙️ Tech Stack
 
-- **Backend:** Django + Django REST Framework  
-- **Frontend:** Next.js (used as alternative to React Native)  
-- **Database:** SQLite  
-- **Local Hosting:** Runs on `localhost`
+- **Backend:** Django + Django REST Framework
+- **Frontend:** Next.js
+- **Database:** SQLite
+- **Deployment:**
+  - Backend: [Render](https://url-shortener-app-3ojs.onrender.com)
+  - Frontend: [Vercel](https://url-shortener-app-git-main-dev-aroras-projects-34d0f3cf.vercel.app/)
+
+---
+
+## 🚀 Live Demo
+
+- 🔗 Frontend: [https://url-shortener-app-git-main-dev-aroras-projects-34d0f3cf.vercel.app](https://url-shortener-app-git-main-dev-aroras-projects-34d0f3cf.vercel.app)
+- 🔧 Backend: [https://url-shortener-app-3ojs.onrender.com](https://url-shortener-app-3ojs.onrender.com)
 
 ---
 
 ## 📁 Project Structure
 
-/backend # Django backend
-/frontend # Next.js frontend
-README.md
-
-yaml
-Copy
-Edit
+```
+url-shortener/
+├── backend/           # Django backend (API + redirect + analytics)
+├── frontend/          # Next.js frontend (UI + local history + analytics)
+└── README.md
+```
 
 ---
 
-## 🚀 Setup Instructions
+## 🛠️ Setup Instructions (Local)
 
-### 🔧 Backend (Django)
+### ✅ Backend
 
 ```bash
 cd backend
 python -m venv env
-source env/bin/activate    # or .\env\Scripts\activate on Windows
+source env/bin/activate    # Windows: .\env\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
-🖥️ Frontend (Next.js)
-bash
-Copy
-Edit
+python manage.py runserver
+```
+
+The backend runs at: **http://localhost:8000**
+
+### ✅ Frontend
+
+```bash
 cd frontend
 npm install
-
-# Create .env.local
+# Add .env.local
 echo NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 > .env.local
-
 npm run dev
-Then open: http://localhost:3000
+```
 
-📦 API Endpoints
-➕ Shorten a URL
-POST /api/shorten/
-Body:
+The frontend runs at: **http://localhost:3000**
 
-json
-Copy
-Edit
-{ "original_url": "https://www.example.com/some/long/path" }
-Response:
+---
 
-json
-Copy
-Edit
-{ "short_url": "http://localhost:8000/Ab12cD" }
-🔁 Redirect to Original
-GET /<short_code>/
+## 📦 API Endpoints
 
-Redirects with 302 to original URL
+### 🔹 POST `/api/shorten/`
+Creates a short URL.
 
-📊 Analytics
-GET /api/analytics/<short_code>/
-Response:
+**Request:**
+```json
+{ "original_url": "https://www.example.com" }
+```
 
-json
-Copy
-Edit
-{ "short_code": "Ab12cD", "click_count": 3 }
-✅ Features
-URL shortening via unique short codes
+**Response:**
+```json
+{ "short_url": "http://localhost:8000/abc123" }
+```
 
-Redirect handling
+### 🔹 GET `/<short_code>/`
+Redirects to the original URL (HTTP 302).
 
-Click count tracking
+### 🔹 GET `/api/analytics/<short_code>/`
+Returns click count for the short link.
 
-/api/analytics/ endpoint
+**Response:**
+```json
+{ "short_code": "abc123", "click_count": 5 }
+```
 
-Dark-themed frontend
+---
 
-Shows last 5 shortened links
+## ✅ Features
 
-Refresh button for click count
+✅ Short URL generation  
+✅ 302 Redirect via short links  
+✅ Click count tracking  
+✅ `/api/analytics/` endpoint  
+✅ Local history of last 5 links (stored in browser)  
+✅ Clean and responsive UI using Tailwind CSS  
+✅ Full deployment (Render + Vercel)  
 
-Clean UI with Tailwind CSS
+---
 
-🧪 Basic Tests
-✅ Backend
-Test to check if POST /api/shorten/ generates unique short_code
+## 🧪 Tests
 
-✅ Frontend
-Snapshot/logic test to verify "Shorten URL" button and input render and trigger API call
+### ✅ Backend
+Test file: `backend/shortener/tests/test_api.py`
 
-📝 Notes
-This project replaces React Native with Next.js (permitted fallback).
+```python
+def test_shorten_creates_unique_code():
+    res = client.post("/api/shorten/", {"original_url": "https://example.com"})
+    assert res.status_code == 201
+```
 
-Backend runs on Django using SQLite.
+Run with:
+```bash
+cd backend
+pytest
+```
 
-All features are implemented and verified.
+### ✅ Frontend
+Test file: `frontend/__tests__/page.test.tsx`
 
-Hosting was optional and skipped.
+```tsx
+it("renders input and shorten button", () => {
+  render(<Home />);
+  expect(screen.getByPlaceholderText("Enter long URL")).toBeInTheDocument();
+});
+```
 
-📸 Demo Preview
+Run with:
+```bash
+cd frontend
+npx jest
+```
+
+---
 
